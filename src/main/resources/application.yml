@@ -1,0 +1,22 @@
+spring:
+  ######################################################################
+  #####                   请确认数据库字符编码为:utf8m4                #####
+  ######################################################################
+
+  datasource:
+    url: '@jdbc.url@'
+    username: '@jdbc.user@'
+    password: '@jdbc.passwd@'
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+      filters:  stat,wall
+      aop-patterns:
+        - cn.bestsort.bbslite.service.*
+        - cn.bestsort.bbslite.manager.*

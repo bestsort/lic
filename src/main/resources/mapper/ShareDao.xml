@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bestsort.cloud_disk.permissions.dao.ShareDao">
+
+    <resultMap type="cn.bestsort.cloud_disk.permissions.entity.Share" id="ShareMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="beginTime" column="begin_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShareMap">
+        select
+          id, url, password, end_time, begin_time
+        from bbs_lite.share
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShareMap">
+        select
+          id, url, password, end_time, begin_time
+        from bbs_lite.share
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ShareMap">
+        select
+          id, url, password, end_time, begin_time
+        from bbs_lite.share
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="beginTime != null">
+                and begin_time = #{beginTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into bbs_lite.share(url, password, end_time, begin_time)
+        values (#{url}, #{password}, #{endTime}, #{beginTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bbs_lite.share
+        <set>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bbs_lite.share where id = #{id}
+    </delete>
+
+</mapper>

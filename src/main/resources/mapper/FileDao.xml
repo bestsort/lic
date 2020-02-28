@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bestsort.nesdisc.file.dao.FileDao">
+
+    <resultMap type="cn.bestsort.nesdisc.file.entity.File" id="FileMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="isDir" column="is_dir" jdbcType="OTHER"/>
+        <result property="parentPath" column="parent_path" jdbcType="VARCHAR"/>
+        <result property="realPath" column="real_path" jdbcType="VARCHAR"/>
+        <result property="size" column="size" jdbcType="INTEGER"/>
+        <result property="unit" column="unit" jdbcType="OTHER"/>
+        <result property="md5" column="md5" jdbcType="VARCHAR"/>
+        <result property="ownerId" column="owner_id" jdbcType="INTEGER"/>
+        <result property="userReadLimit" column="user_read_limit" jdbcType="INTEGER"/>
+        <result property="userWriteLimit" column="user_write_limit" jdbcType="INTEGER"/>
+        <result property="isRemoved" column="is_removed" jdbcType="OTHER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FileMap">
+        select
+          id, name, is_dir, parent_path, real_path, size, unit, md5, owner_id, user_read_limit, user_write_limit, is_removed, gmt_create
+        from bbs_lite.file
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FileMap">
+        select
+          id, name, is_dir, parent_path, real_path, size, unit, md5, owner_id, user_read_limit, user_write_limit, is_removed, gmt_create
+        from bbs_lite.file
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="FileMap">
+        select
+          id, name, is_dir, parent_path, real_path, size, unit, md5, owner_id, user_read_limit, user_write_limit, is_removed, gmt_create
+        from bbs_lite.file
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="isDir != null">
+                and is_dir = #{isDir}
+            </if>
+            <if test="parentPath != null and parentPath != ''">
+                and parent_path = #{parentPath}
+            </if>
+            <if test="realPath != null and realPath != ''">
+                and real_path = #{realPath}
+            </if>
+            <if test="size != null">
+                and size = #{size}
+            </if>
+            <if test="unit != null">
+                and unit = #{unit}
+            </if>
+            <if test="md5 != null and md5 != ''">
+                and md5 = #{md5}
+            </if>
+            <if test="ownerId != null">
+                and owner_id = #{ownerId}
+            </if>
+            <if test="userReadLimit != null">
+                and user_read_limit = #{userReadLimit}
+            </if>
+            <if test="userWriteLimit != null">
+                and user_write_limit = #{userWriteLimit}
+            </if>
+            <if test="isRemoved != null">
+                and is_removed = #{isRemoved}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into bbs_lite.file(name, is_dir, parent_path, real_path, size, unit, md5, owner_id, user_read_limit, user_write_limit, is_removed, gmt_create)
+        values (#{name}, #{isDir}, #{parentPath}, #{realPath}, #{size}, #{unit}, #{md5}, #{ownerId}, #{userReadLimit}, #{userWriteLimit}, #{isRemoved}, #{gmtCreate})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bbs_lite.file
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="isDir != null">
+                is_dir = #{isDir},
+            </if>
+            <if test="parentPath != null and parentPath != ''">
+                parent_path = #{parentPath},
+            </if>
+            <if test="realPath != null and realPath != ''">
+                real_path = #{realPath},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+            <if test="md5 != null and md5 != ''">
+                md5 = #{md5},
+            </if>
+            <if test="ownerId != null">
+                owner_id = #{ownerId},
+            </if>
+            <if test="userReadLimit != null">
+                user_read_limit = #{userReadLimit},
+            </if>
+            <if test="userWriteLimit != null">
+                user_write_limit = #{userWriteLimit},
+            </if>
+            <if test="isRemoved != null">
+                is_removed = #{isRemoved},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bbs_lite.file where id = #{id}
+    </delete>
+
+</mapper>

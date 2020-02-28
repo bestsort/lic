@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bestsort.cloud_disk.user.dao.UserDao">
+
+    <resultMap type="cn.bestsort.cloud_disk.user.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="eMail" column="e_mail" jdbcType="VARCHAR"/>
+        <result property="totalCapacity" column="total_capacity" jdbcType="INTEGER"/>
+        <result property="usedCapacity" column="used_capacity" jdbcType="INTEGER"/>
+        <result property="capacityUnit" column="capacity_unit" jdbcType="VARCHAR"/>
+        <result property="readLevel" column="read_level" jdbcType="INTEGER"/>
+        <result property="writeLevel" column="write_level" jdbcType="INTEGER"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+          id, name, account, password, e_mail, total_capacity, used_capacity, capacity_unit, read_level, write_level, avatar
+        from bbs_lite.user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+          id, name, account, password, e_mail, total_capacity, used_capacity, capacity_unit, read_level, write_level, avatar
+        from bbs_lite.user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserMap">
+        select
+          id, name, account, password, e_mail, total_capacity, used_capacity, capacity_unit, read_level, write_level, avatar
+        from bbs_lite.user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="eMail != null and eMail != ''">
+                and e_mail = #{eMail}
+            </if>
+            <if test="totalCapacity != null">
+                and total_capacity = #{totalCapacity}
+            </if>
+            <if test="usedCapacity != null">
+                and used_capacity = #{usedCapacity}
+            </if>
+            <if test="capacityUnit != null and capacityUnit != ''">
+                and capacity_unit = #{capacityUnit}
+            </if>
+            <if test="readLevel != null">
+                and read_level = #{readLevel}
+            </if>
+            <if test="writeLevel != null">
+                and write_level = #{writeLevel}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into bbs_lite.user(name, account, password, e_mail, total_capacity, used_capacity, capacity_unit, read_level, write_level, avatar)
+        values (#{name}, #{account}, #{password}, #{eMail}, #{totalCapacity}, #{usedCapacity}, #{capacityUnit}, #{readLevel}, #{writeLevel}, #{avatar})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bbs_lite.user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="eMail != null and eMail != ''">
+                e_mail = #{eMail},
+            </if>
+            <if test="totalCapacity != null">
+                total_capacity = #{totalCapacity},
+            </if>
+            <if test="usedCapacity != null">
+                used_capacity = #{usedCapacity},
+            </if>
+            <if test="capacityUnit != null and capacityUnit != ''">
+                capacity_unit = #{capacityUnit},
+            </if>
+            <if test="readLevel != null">
+                read_level = #{readLevel},
+            </if>
+            <if test="writeLevel != null">
+                write_level = #{writeLevel},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bbs_lite.user where id = #{id}
+    </delete>
+
+</mapper>

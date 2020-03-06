@@ -1,4 +1,4 @@
-create table file(
+create table files(
                      id bigint primary key auto_increment,
                      name varchar(50) comment '文件名',
                      is_dir tinyint default 0 comment '文件类型（目录/文件）',
@@ -11,7 +11,8 @@ create table file(
                      user_read_limit int comment '大于此用户等级的用户可以访问到该文件',
                      user_write_limit int comment '大于此用户等级的用户可以修改该文件',
                      is_removed tinyint default 0 comment '是否删除,1 表示该文件已经被移入回收站',
-                     gmt_create datetime DEFAULT CURRENT_TIMESTAMP comment '文件创建时间'
+                     gmt_create datetime DEFAULT CURRENT_TIMESTAMP comment '文件创建时间',
+                     gmt_update datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT ' 修改时间 '
 )DEFAULT CHARSET=utf8mb4;
 
 create table user(

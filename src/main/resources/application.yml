@@ -16,7 +16,8 @@ spring:
           db-type: mysql
           log-slow-sql: true
           slow-sql-millis: 2000
-      filters:  stat,wall
-      aop-patterns:
-        - cn.bestsort.bbslite.service.*
-        - cn.bestsort.bbslite.manager.*
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+file-system:
+  storage: local

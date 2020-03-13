@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.bestsort.cloud_disk.message.dao.MessageDao">
 
-    <resultMap type="cn.bestsort.cloud_disk.message.entity.Message" id="MessageMap">
+    <resultMap type="cn.bestsort.cloud_disk.model.entity.Message" id="MessageMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="sendFormId" column="send_form_id" jdbcType="INTEGER"/>
         <result property="sendToId" column="send_to_id" jdbcType="INTEGER"/>

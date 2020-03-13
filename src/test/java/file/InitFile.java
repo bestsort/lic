@@ -1,6 +1,8 @@
 package file;
 
 import cn.bestsort.cloud_disk.Main;
+import cn.bestsort.cloud_disk.dao.UserDao;
+import cn.bestsort.cloud_disk.file.dao.FilesDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.net.URL;
 
 /**
@@ -17,23 +20,28 @@ import java.net.URL;
  *
  * @author bestsort
  * @version 1.0
- * @date 2/29/20 3:07 PM
+ * @date 3/6/20 5:12 PM
  */
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DefaultActualFileTest {
+public class InitFile {
     @LocalServerPort
     private int port;
 
     private URL base;
 
 
+    @Resource
+    FilesDao filesDao;
+    @Resource
+    UserDao userDao;
     @Autowired
     private TestRestTemplate testRestTemplate;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         String url = String.format("http://localhost:%d/", port);
         System.out.println(String.format("port is : [%d]", port));
         this.base = new URL(url);
@@ -41,9 +49,12 @@ public class DefaultActualFileTest {
 
     /**
      * 向"/test"地址发送请求，并打印返回结果
+     *
      * @throws Exception
      */
     @Test
-    public void test1() throws Exception {
+    public void initData() {
+
     }
+
 }

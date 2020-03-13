@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.bestsort.cloud_disk.user.dao.UserDao">
+<mapper namespace="cn.bestsort.cloud_disk.dao.UserDao">
 
-    <resultMap type="cn.bestsort.cloud_disk.user.entity.User" id="UserMap">
+    <resultMap type="cn.bestsort.cloud_disk.model.entity.User" id="UserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="account" column="account" jdbcType="VARCHAR"/>

@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.utils;
+package cn.bestsort.lic.utils;
 
-import static cn.bestsort.dubai.model.support.DuBaiConst.FILE_SEPARATOR;
-import static cn.bestsort.dubai.model.support.DuBaiConst.USER_HOME;
+import static cn.bestsort.lic.model.support.LicConst.FILE_SEPARATOR;
+import static cn.bestsort.lic.model.support.LicConst.USER_HOME;
 
 /**
  * 对文件路径的一些容错性处理

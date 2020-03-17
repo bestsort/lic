@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @date 2020/3/16 下午3:05
  */
 
-public class ServiceUtils {
+public class ServiceUtil {
 
     /**
      * Fetches id to set.
@@ -164,6 +164,6 @@ public class ServiceUtils {
         return PageRequest.of(0, top, Sort.by(Sort.Direction.DESC, sortProperty));
     }
 
-    private ServiceUtils() {
+    private ServiceUtil() {
     }
 }

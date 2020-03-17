@@ -5,20 +5,18 @@ import cn.bestsort.lic.model.entity.Options;
 import cn.bestsort.lic.model.enums.propertys.PropertyEnum;
 import cn.bestsort.lic.repository.OptionsRepository;
 import cn.bestsort.lic.service.OptionsService;
-import cn.bestsort.lic.service.base.AbstractBaseService;
+import cn.bestsort.lic.service.base.AbstractBaseServiceImpl;
 import cn.bestsort.lic.utils.EnumUtil;
 import cn.bestsort.lic.utils.ServiceUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import javax.validation.Validator;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户配置表(Options)表服务实现类
@@ -27,7 +25,7 @@ import java.util.Map;
  * @since 2020-03-12 09:33:33
  */
 @Service
-public class OptionsServiceImpl extends AbstractBaseService<Options, Long> implements OptionsService {
+public class OptionsServiceImplImpl extends AbstractBaseServiceImpl<Options, Long> implements OptionsService {
 
     private final OptionsRepository optionsRepository;
     private final ApplicationContext applicationContext;
@@ -84,24 +82,25 @@ public class OptionsServiceImpl extends AbstractBaseService<Options, Long> imple
     }
 
     @Override
-    public String QueryValueByKeyOrDefault(String optionKey, String defaultOptionValue) {
-        return null;
+    public String queryValueByKeyOrDefault(String optionKey, Object defaultOptionValue) {
+        Options result = optionsRepository.findByOptionKey(optionKey);
+        return result == null ? defaultOptionValue.toString() : result.getOptionKey();
     }
 
     @Override
     public void inertOrUpdate(String optionKey, String optionValue) {
-
+        Options options = optionsRepository.findByOptionKey(optionKey);
+        if (options == null){
+            options = new Options();
+        }
+        options.setOptionValue(optionValue);
+        options.setOptionKey(optionKey);
+        optionsRepository.save(options);
     }
 
     @Override
     public void insertOrUpdateBySet(Map<String, String> set) {
-        return 0;
-    }
 
-
-    @Override
-    public void insertOrUpdateByOptions(List<Options> options) {
-        return 0;
     }
 
     @Override
@@ -109,11 +108,11 @@ public class OptionsServiceImpl extends AbstractBaseService<Options, Long> imple
         return false;
     }
 
-    public OptionsServiceImpl(OptionsRepository optionsRepository,
-                              ApplicationContext applicationContext,
-                              MemoryCacheStore memoryCacheStore,
-                              ApplicationEventPublisher eventPublisher,
-                              Validator validator){
+    public OptionsServiceImplImpl(OptionsRepository optionsRepository,
+                                  ApplicationContext applicationContext,
+                                  MemoryCacheStore memoryCacheStore,
+                                  ApplicationEventPublisher eventPublisher,
+                                  Validator validator){
         super(optionsRepository);
         this.applicationContext = applicationContext;
         this.optionsRepository = optionsRepository;

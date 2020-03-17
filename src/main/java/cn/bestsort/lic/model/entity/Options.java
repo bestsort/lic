@@ -1,12 +1,13 @@
-package cn.bestsort.dubai.model.entity;
+package cn.bestsort.lic.model.entity;
 
+import cn.bestsort.lic.utils.TimeUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.GeneratorType;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -19,63 +20,14 @@ import java.util.Date;
 @Entity
 @Table //TODO index
 @ToString
-@EqualsAndHashCode
-public class Options {
-    @Id
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class Options extends BaseEntity{
     
     private String optionKey;
     
     private String optionValue;
     /**
-    * 配置所对应的用户id,为0则表示为系统配置
-    */
-    private Long userId;
-    /**
     * 创建时间
     */
-    private Date gmtCreate;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOptionKey() {
-        return optionKey;
-    }
-
-    public void setOptionKey(String optionKey) {
-        this.optionKey = optionKey;
-    }
-
-    public String getOptionValue() {
-        return optionValue;
-    }
-
-    public void setOptionValue(String optionValue) {
-        this.optionValue = optionValue;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-
+    private Timestamp gmtCreate = TimeUtil.now();
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 3/12/20 10:07 AM
  */
-public class TimeUtils {
+public class TimeUtil {
     private static final long MILL_TO_SECOND = 1000;
     private static final long SECOND_TO_MINUTE = 60;
     private static final long MINUTE_TO_HOUR = 60;
@@ -37,5 +37,5 @@ public class TimeUtils {
         return times;
     }
 
-    private TimeUtils(){}
+    private TimeUtil(){}
 }

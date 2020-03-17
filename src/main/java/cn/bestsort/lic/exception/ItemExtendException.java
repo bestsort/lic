@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.exception;
+package cn.bestsort.lic.exception;
 
 /**
  * TODO

@@ -1,8 +1,8 @@
-package cn.bestsort.dubai.service.impl;
+package cn.bestsort.lic.service.impl;
 
-import cn.bestsort.dubai.model.entity.Files;
-import cn.bestsort.dubai.model.enums.StorageType;
-import cn.bestsort.dubai.service.ActualFileSystemInterface;
+import cn.bestsort.lic.model.entity.Files;
+import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.service.ActualFileSystemInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class AliOssFileSystemImpl implements ActualFileSystemInterface {
     }
 
     @Override
-    public StorageType getType() {
+    public FileStoreType getType() {
         return null;
     }
 }

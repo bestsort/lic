@@ -1,14 +1,10 @@
-package cn.bestsort.lic.model.enums;
+package cn.bestsort.lic.model.enums.propertys;
 
+import cn.bestsort.lic.model.enums.ValueEnum;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * TODO
@@ -88,7 +84,7 @@ public interface PropertyEnum extends ValueEnum<String> {
         try {
             if (propertyEnum.getType().isAssignableFrom(Enum.class)) {
                 Class<Enum> type = (Class<Enum>) propertyEnum.getType();
-                Enum result = convertToEnum(value, type);
+                Enum result = stringToEnum(value, type);
                 return result != null ? result : value;
             }
 
@@ -108,7 +104,7 @@ public interface PropertyEnum extends ValueEnum<String> {
      * @return property enum value or null
      */
     @Nullable
-    static <T extends Enum<T>> T convertToEnum(@NonNull String value, @NonNull Class<T> type) {
+    static <T extends Enum<T>> T stringToEnum(@NonNull String value, @NonNull Class<T> type) {
         Assert.hasText(value, "Property value must not be blank");
 
         try {
@@ -140,24 +136,6 @@ public interface PropertyEnum extends ValueEnum<String> {
             || type.isAssignableFrom(Float.class)
             || type.isAssignableFrom(Enum.class)
             || type.isAssignableFrom(ValueEnum.class);
-    }
-
-    static Map<String, PropertyEnum> getValuePropertyEnumMap() {
-        // Get all properties
-
-        List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
-
-        Map<String, PropertyEnum> result = new HashMap<>();
-
-        propertyEnumClasses.forEach(propertyEnumClass -> {
-            PropertyEnum[] propertyEnums = propertyEnumClass.getEnumConstants();
-
-            for (PropertyEnum propertyEnum : propertyEnums) {
-                result.put(propertyEnum.getValue(), propertyEnum);
-            }
-        });
-
-        return result;
     }
 
     /**
@@ -193,6 +171,5 @@ public interface PropertyEnum extends ValueEnum<String> {
         // Convert to the given type
         return PropertyEnum.convertTo(defaultValue, propertyType);
     }
-
 }
 

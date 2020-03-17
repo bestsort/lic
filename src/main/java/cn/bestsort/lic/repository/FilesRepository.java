@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.repository;
+package cn.bestsort.lic.repository;
 
-import cn.bestsort.dubai.model.entity.Files;
-import cn.bestsort.dubai.repository.base.BaseRepository;
+import cn.bestsort.lic.model.entity.Files;
+import cn.bestsort.lic.repository.base.BaseRepository;
 
 /**
  * @author bestsort

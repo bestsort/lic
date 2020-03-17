@@ -1,6 +1,6 @@
-package cn.bestsort.dubai.service;
+package cn.bestsort.lic.service;
 
-import cn.bestsort.dubai.model.entity.Files;
+import cn.bestsort.lic.model.entity.Files;
 
 import java.util.List;
 

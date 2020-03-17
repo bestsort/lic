@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.repository;
+package cn.bestsort.lic.repository;
 
-import cn.bestsort.dubai.model.entity.Options;
-import cn.bestsort.dubai.repository.base.BaseRepository;
+import cn.bestsort.lic.model.entity.Options;
+import cn.bestsort.lic.repository.base.BaseRepository;
 
 /**
  * TODO
@@ -11,6 +11,11 @@ import cn.bestsort.dubai.repository.base.BaseRepository;
  * @date 2020/3/16 上午10:47
  */
 public interface OptionsRepository extends BaseRepository<Options, Long> {
+    /**
+     * 根据 key 查找 option
+     * @param key not be null
+     * @return option
+     */
     Options findByOptionKey(String key);
 
 }

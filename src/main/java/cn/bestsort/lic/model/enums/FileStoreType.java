@@ -4,7 +4,7 @@ package cn.bestsort.lic.model.enums;
  * 文件系统
  * @author bestsort
  */
-public enum StorageType {
+public enum FileStoreType {
     /**
      * 服务器本地做为文件系统
      */

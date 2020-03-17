@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.model.support;
+package cn.bestsort.lic.model.support;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;

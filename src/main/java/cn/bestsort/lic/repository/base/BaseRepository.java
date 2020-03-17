@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.repository.base;
+package cn.bestsort.lic.repository.base;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

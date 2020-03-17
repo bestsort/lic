@@ -1,8 +1,5 @@
-package cn.bestsort.dubai.service;
+package cn.bestsort.lic.service;
 
-import cn.bestsort.dubai.model.entity.Options;
-
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +8,7 @@ import java.util.Map;
  * @author bestsort
  * @since 2020-03-12 09:33:33
  */
-public interface OptionsService {
+public interface OptionsService  {
 
     /**
      * 通过 key 查询单条数据
@@ -19,32 +16,34 @@ public interface OptionsService {
      * @param key 键
      * @return    实例对象
      */
-    Options queryByKey(String key);
+    String queryValueByKey(String key);
+
+    /**
+     * 通过 key 查询 value, 若未找到则返回 defaultOptionValue
+     * @param optionKey key
+     * @param defaultOptionValue 默认值
+     * @return value
+     */
+    String queryValueByKeyOrDefault(String optionKey, Object defaultOptionValue);
 
     /**
      * 新增/更新缓存
-     * @param key    键
-     * @param value  值
-     * @return 实例对象
+     * @param optionKey    键
+     * @param optionValue  值
      */
-    Options inertOrUpdate(String key, String value);
+    void inertOrUpdate(String optionKey, String optionValue);
 
     /**
      * 插入/更新集合中所有K-V
      * @param set 集合
-     * @return 影响的行数
      */
-    int insertOrUpdateBySet(Map<String, String> set);
+    void insertOrUpdateBySet(Map<String, String> set);
 
     /**
-     * 插入/更新所有options
-     * @param options 需要新增/更新的数据
-     * @return 影响的行数
-     */
-    int insertOrUpdateByOptions(List<Options> options);
-    /**
+     * 删除
      * @param key    要删除的 key
      * @return       是否成功
      */
     boolean deleteByKey(String key);
+
 }

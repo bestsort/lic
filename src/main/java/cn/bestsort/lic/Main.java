@@ -1,6 +1,5 @@
-package cn.bestsort.dubai;
+package cn.bestsort.lic;
 
-import cn.bestsort.dubai.config.properties.DuBaiProperties;
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +14,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 @EnableSwaggerBootstrapUI
-@EnableConfigurationProperties(DuBaiProperties.class)
 public class Main extends SpringBootServletInitializer {
     public static void main(String[] args) {
         System.setProperty("spring.config.additional-location", "file:${user.home}/.cloud_disk/,file:${user.home}/cloud_disk/");

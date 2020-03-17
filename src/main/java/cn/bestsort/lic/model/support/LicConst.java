@@ -8,7 +8,7 @@ import java.io.File;
  * @version 1.0
  * @date 3/8/20 11:08 AM
  */
-public class DuBaiConst {
+public class LicConst {
 
     /**
      * User home directory.
@@ -28,6 +28,6 @@ public class DuBaiConst {
 
     static {
         // Set version
-        VERSION = DuBaiConst.class.getPackage().getImplementationVersion();
+        VERSION = LicConst.class.getPackage().getImplementationVersion();
     }
 }

@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.model.entity;
+package cn.bestsort.lic.model.entity;
 
 import java.util.Date;
 import java.io.Serializable;

@@ -1,7 +1,7 @@
 package cn.bestsort.lic.handler;
 
 import cn.bestsort.lic.cache.CacheStoreInterface;
-import cn.bestsort.lic.model.enums.CacheType;
+import cn.bestsort.lic.model.enums.CacheStoreType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
@@ -21,13 +21,13 @@ import java.util.HashMap;
 
 @Slf4j
 @Component
-public class CacheHandler {
+public class CacheStoreHandler {
 
-    private HashMap<CacheType, CacheStoreInterface> cacheMap = new HashMap<>();
+    private HashMap<CacheStoreType, CacheStoreInterface> cacheMap = new HashMap<>();
 
-    private static CacheType STRATEGY = CacheType.DEFAULT;
+    private static CacheStoreType STRATEGY = CacheStoreType.DEFAULT;
 
-    public CacheHandler(ApplicationContext applicationContext){
+    public CacheStoreHandler(ApplicationContext applicationContext){
         addFileHandlers(applicationContext.getBeansOfType(CacheStoreInterface.class).values());
     }
 
@@ -44,7 +44,7 @@ public class CacheHandler {
         }
     }
 
-    public static void setStrategy(CacheType strategy){
+    public static void setStrategy(CacheStoreType strategy){
         Assert.notNull(strategy, "storage must be not null");
         STRATEGY = strategy;
     }

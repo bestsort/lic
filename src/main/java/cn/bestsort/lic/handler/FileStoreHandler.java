@@ -1,6 +1,6 @@
 package cn.bestsort.lic.handler;
 
-import cn.bestsort.lic.model.enums.StorageType;
+import cn.bestsort.lic.model.enums.FileStoreType;
 import cn.bestsort.lic.service.ActualFileSystemInterface;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
@@ -19,11 +19,13 @@ import java.util.HashMap;
  */
 
 @Component
-public class FileStorageHandler {
+public class FileStoreHandler {
 
-    private HashMap<StorageType, ActualFileSystemInterface> fileHandlers = new HashMap<>();
-    private static StorageType STRATEGY = StorageType.DEFAULT;
-    public FileStorageHandler(ApplicationContext applicationContext){
+    private HashMap<FileStoreType, ActualFileSystemInterface> fileHandlers = new HashMap<>();
+    private static FileStoreType STRATEGY = FileStoreType.DEFAULT;
+
+
+    public FileStoreHandler(ApplicationContext applicationContext){
         addFileHandlers(applicationContext.getBeansOfType(ActualFileSystemInterface.class).values());
     }
 
@@ -43,12 +45,12 @@ public class FileStorageHandler {
     public static String getStrategy(){
         return STRATEGY.toString();
     }
-    public static void setStrategy(StorageType strategy){
+    public static void setStrategy(FileStoreType strategy){
         Assert.notNull(strategy, "文件系统类型不可为空");
         STRATEGY = strategy;
     }
 
-    public ActualFileSystemInterface fetchFileSystem(){
-        return  fileHandlers.getOrDefault(STRATEGY.toString(),fileHandlers.get(StorageType.DEFAULT));
+    public ActualFileSystemInterface fetchFileStore(){
+        return  fileHandlers.getOrDefault(STRATEGY.toString(),fileHandlers.get(FileStoreType.DEFAULT));
     }
 }

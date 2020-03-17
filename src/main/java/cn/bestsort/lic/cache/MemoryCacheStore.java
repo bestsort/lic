@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.cache;
+package cn.bestsort.lic.cache;
 
-import cn.bestsort.dubai.model.enums.CacheType;
-import cn.bestsort.dubai.utils.TimeUtils;
+import cn.bestsort.lic.model.enums.CacheStoreType;
+import cn.bestsort.lic.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -26,7 +26,7 @@ public class MemoryCacheStore extends AbstractStringCacheStore {
     Optional<CacheWrapper<String>> getInternal(String key) {
         Assert.hasText(key, "key must not be blank");
         CacheWrapper<String> cacheWrapper = CACHE_CONTAINER.get(key);
-        if (cacheWrapper.getExpireAt().before(TimeUtils.now())){
+        if (cacheWrapper.getExpireAt().before(TimeUtil.now())){
             delete(key);
             return Optional.empty();
         }
@@ -92,14 +92,14 @@ public class MemoryCacheStore extends AbstractStringCacheStore {
     }
 
     @Override
-    public CacheType getCacheType(){
-        return CacheType.DEFAULT;
+    public CacheStoreType getCacheType(){
+        return CacheStoreType.DEFAULT;
     }
 
     private void tryInit(){
         // double check
         if (CACHE_CONTAINER == null){
-            synchronized (CACHE_CONTAINER){
+            synchronized (this){
                 if (CACHE_CONTAINER == null){
                     CACHE_CONTAINER = new ConcurrentHashMap<>(CACHE_INIT_SIZE);
                 }

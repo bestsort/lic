@@ -1,6 +1,6 @@
-package cn.bestsort.dubai.cache;
+package cn.bestsort.lic.cache;
 
-import cn.bestsort.dubai.model.enums.CacheType;
+import cn.bestsort.lic.model.enums.CacheStoreType;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -35,7 +35,6 @@ public interface CacheStoreInterface<K, V> {
      */
     void put(@NotNull K key, @NotNull V value, long timeout,@NotNull TimeUnit timeUnit);
 
-
     /**
      * put value with default timeout
      * @param key       not null
@@ -66,5 +65,5 @@ public interface CacheStoreInterface<K, V> {
      * get cache type
      * @return CacheType
      */
-    CacheType getCacheType();
+    CacheStoreType getCacheType();
 }

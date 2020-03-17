@@ -1,7 +1,8 @@
 package cn.bestsort.lic.model.enums.propertys;
 
-import cn.bestsort.lic.model.enums.CacheType;
-import cn.bestsort.lic.model.enums.StorageType;
+import cn.bestsort.lic.model.enums.CacheStoreType;
+import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.utils.TimeUtil;
 
 /**
  * TODO
@@ -10,22 +11,49 @@ import cn.bestsort.lic.model.enums.StorageType;
  * @version 1.0
  * @date 2020/3/17 上午10:30
  */
-public enum LicProperty implements PropertyEnum {
+public enum LicPropertyFiled implements PropertyEnum {
 
     /**
-     * 所采用的缓存策略(内存模式/Redis)
+     * 是否是第一次使用lic
      */
-    CACHE_STRATEGY("lic_cache_strategy", String.class, CacheType.DEFAULT.toString()),
+    IS_FIRST_USED(
+        "is_first_used",
+        Boolean.class,
+        Boolean.toString(true)
+    ),
 
     /**
-     * 所采用的文件系统(本地服务器/阿里云OSS)
+     * 第一次使用的时间
      */
-    STORAGE_STRATEGY("lic_storage_strategy", String.class, StorageType.DEFAULT.toString());
+    BIRTHDAY(
+        "lic_birthday",
+        String.class,
+        TimeUtil.now().toString()
+    ),
+
+    /**
+     * 所采用的缓存策略, 详见{@link CacheStoreType}
+     */
+    CACHE_STRATEGY(
+        "lic_cache_strategy",
+        String.class,
+        CacheStoreType.DEFAULT.toString()
+    ),
+
+    /**
+     * 所采用的文件系统, 详见{@link FileStoreType ;}
+     */
+    STORAGE_STRATEGY(
+        "lic_storage_strategy",
+        String.class,
+        FileStoreType.DEFAULT.toString()
+    );
+
     private final  String value;
     private final Class<?> type;
     private final String defaultValue;
 
-    LicProperty(String value, Class<?> type, String defaultValue) {
+    LicPropertyFiled(String value, Class<?> type, String defaultValue) {
         if (!PropertyEnum.isSupportedType(type)) {
             throw new IllegalArgumentException("Unsupported blog property type: " + type);
         }
@@ -41,9 +69,8 @@ public enum LicProperty implements PropertyEnum {
 
     @Override
     public String defaultValue() {
-        return "DEFAULT";
+        return defaultValue;
     }
-
 
     @Override
     public String getValue() {

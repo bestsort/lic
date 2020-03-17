@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.controller;
+package cn.bestsort.lic.controller;
 
-import cn.bestsort.dubai.model.entity.Files;
-import cn.bestsort.dubai.service.CloudDiskFileSystemInterface;
+import cn.bestsort.lic.model.entity.Files;
+import cn.bestsort.lic.service.CloudDiskFileSystemInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

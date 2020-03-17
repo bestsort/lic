@@ -1,11 +1,11 @@
-package cn.bestsort.dubai.service.impl;
+package cn.bestsort.lic.service.impl;
 
-import cn.bestsort.dubai.exception.ItemExtendException;
-import cn.bestsort.dubai.model.entity.Files;
-import cn.bestsort.dubai.model.enums.StorageType;
-import cn.bestsort.dubai.repository.FilesRepository;
-import cn.bestsort.dubai.service.ActualFileSystemInterface;
-import cn.bestsort.dubai.utils.FilePathUtil;
+import cn.bestsort.lic.exception.ItemExtendException;
+import cn.bestsort.lic.model.entity.Files;
+import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.repository.FilesRepository;
+import cn.bestsort.lic.service.ActualFileSystemInterface;
+import cn.bestsort.lic.utils.FilePathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -110,7 +110,7 @@ public class LocalFileSystemImpl implements ActualFileSystemInterface{
     }
 
     @Override
-    public StorageType getType() {
-        return StorageType.DEFAULT;
+    public FileStoreType getType() {
+        return FileStoreType.DEFAULT;
     }
 }

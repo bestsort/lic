@@ -24,13 +24,13 @@ import java.util.Optional;
  */
 
 @Slf4j
-public class AbstractBaseService<DOMAIN, ID> implements BaseService<DOMAIN, ID> {
+public class AbstractBaseServiceImpl<DOMAIN, ID> implements BaseService<DOMAIN, ID> {
 
     private final String domainName;
 
     private final BaseRepository<DOMAIN, ID> repository;
 
-    protected AbstractBaseService(BaseRepository<DOMAIN, ID> repository) {
+    protected AbstractBaseServiceImpl(BaseRepository<DOMAIN, ID> repository) {
         this.repository = repository;
 
         // Get domain name
@@ -39,7 +39,7 @@ public class AbstractBaseService<DOMAIN, ID> implements BaseService<DOMAIN, ID> 
         domainName = domainClass.getSimpleName();
     }
 
-    public AbstractBaseService(String domainName, BaseRepository<DOMAIN, ID> repository) {
+    public AbstractBaseServiceImpl(String domainName, BaseRepository<DOMAIN, ID> repository) {
         this.domainName = domainName;
         this.repository = repository;
     }

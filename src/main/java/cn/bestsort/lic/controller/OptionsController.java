@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.controller;
+package cn.bestsort.lic.controller;
 
-import cn.bestsort.dubai.model.entity.Options;
-import cn.bestsort.dubai.service.OptionsService;
+import cn.bestsort.lic.model.entity.Options;
+import cn.bestsort.lic.service.OptionsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +33,6 @@ public class OptionsController {
             Options buffer = new Options();
             buffer.setOptionKey("key-" + i);
             buffer.setOptionValue("value-" + i);
-            buffer.setUserId(1L * i);
             list.add(buffer);
         }
         return list;

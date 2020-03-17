@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.cache;
+package cn.bestsort.lic.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.repository.base;
+package cn.bestsort.lic.repository.base;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

@@ -1,8 +1,10 @@
-package cn.bestsort.dubai.cache;
+package cn.bestsort.lic.cache;
 
-import cn.bestsort.dubai.service.OptionsService;
-import cn.bestsort.dubai.utils.TimeUtils;
+import cn.bestsort.lic.listener.event.CacheEvent;
+import cn.bestsort.lic.service.OptionsService;
+import cn.bestsort.lic.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -24,6 +26,8 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
 
     @Resource
     OptionsService optionsService;
+    @Resource
+    ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * get cache wrapper by key
@@ -61,7 +65,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
 
         return getInternal(key).map(cacheWrapper -> {
             // Check expiration
-            if (cacheWrapper.getExpireAt() != null && cacheWrapper.getExpireAt().before(TimeUtils.now())) {
+            if (cacheWrapper.getExpireAt() != null && cacheWrapper.getExpireAt().before(TimeUtil.now())) {
                 // Expired then delete it
                 log.warn("Cache key: [{}] has been expired", key);
                 // Delete the key
@@ -76,6 +80,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
 
     @Override
     public void put(K key, V value, long timeout, TimeUnit timeUnit) {
+        applicationEventPublisher.publishEvent(new CacheEvent(this, key.toString(), value.toString()));
         putInternal(key, buildCacheWrapper(value, timeout, timeUnit));
     }
 
@@ -86,7 +91,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
 
     @Override
     public void put(K key, V value) {
-        putInternal(key, buildCacheWrapper(value, 0, null));
+        put(key, value, 0, null);
     }
 
     /**
@@ -103,11 +108,11 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
         Assert.isTrue(timeout >= 0 && timeout < Long.MAX_VALUE,
                 "Cache expiration timeout must be bigger than 0 and less than Long.MAX_VALUE");
 
-        Timestamp now = TimeUtils.now();
+        Timestamp now = TimeUtil.now();
         Timestamp expireAt = null;
 
         if (timeout > 0 && timeUnit != null) {
-            expireAt = TimeUtils.add(now, timeout, timeUnit);
+            expireAt = TimeUtil.add(now, timeout, timeUnit);
         }
 
         // Build cache wrapper

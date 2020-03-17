@@ -1,8 +1,9 @@
+/*
 package file;
 
 import cn.bestsort.cloud_disk.Main;
+import cn.bestsort.cloud_disk.dao.FilesDao;
 import cn.bestsort.cloud_disk.dao.UserDao;
-import cn.bestsort.cloud_disk.file.dao.FilesDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +16,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.net.URL;
 
+*/
 /**
  * TODO
  *
  * @author bestsort
  * @version 1.0
  * @date 3/6/20 5:12 PM
- */
+ *//*
+
 
 
 @RunWith(SpringRunner.class)
@@ -46,15 +49,4 @@ public class InitFile {
         System.out.println(String.format("port is : [%d]", port));
         this.base = new URL(url);
     }
-
-    /**
-     * 向"/test"地址发送请求，并打印返回结果
-     *
-     * @throws Exception
-     */
-    @Test
-    public void initData() {
-
-    }
-
-}
+}*/

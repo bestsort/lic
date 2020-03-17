@@ -1,6 +1,6 @@
 package file;
 
-import cn.bestsort.cloud_disk.Main;
+import cn.bestsort.lic.Main;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

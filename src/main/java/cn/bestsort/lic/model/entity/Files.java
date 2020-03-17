@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.model.entity;
+package cn.bestsort.lic.model.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,13 +18,8 @@ import java.io.Serializable;
 @Entity
 @Table //TODO index
 @ToString
-@EqualsAndHashCode
-public class Files implements Serializable {
-    private static final long serialVersionUID = -76460313441726488L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class Files extends BaseEntity{
     /**
     * 文件名
     */
@@ -58,12 +53,4 @@ public class Files implements Serializable {
     * 是否删除,1 表示该文件已经被移入回收站
     */
     private boolean isRemoved;
-    /**
-    * 文件创建时间
-    */
-    private Date gmtCreate;
-    /**
-    *  修改时间 
-    */private Date gmtUpdate;
-
 }

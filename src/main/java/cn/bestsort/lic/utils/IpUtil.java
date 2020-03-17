@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.utils;
+package cn.bestsort.lic.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

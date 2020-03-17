@@ -1,6 +1,6 @@
-package cn.bestsort.dubai.service;
+package cn.bestsort.lic.service;
 
-import cn.bestsort.dubai.model.enums.StorageType;
+import cn.bestsort.lic.model.enums.FileStoreType;
 
 /**
  * TODO
@@ -10,5 +10,5 @@ import cn.bestsort.dubai.model.enums.StorageType;
  * @date 2/29/20 2:47 PM
  */
 public interface ActualFileSystemInterface extends BaseFileSystemInterface {
-    StorageType getType();
+    FileStoreType getType();
 }

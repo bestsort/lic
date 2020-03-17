@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.model.enums;
+package cn.bestsort.lic.model.enums;
 
 import java.util.LinkedList;
 

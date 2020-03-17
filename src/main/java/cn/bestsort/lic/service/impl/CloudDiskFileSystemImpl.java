@@ -1,11 +1,11 @@
-package cn.bestsort.dubai.service.impl;
+package cn.bestsort.lic.service.impl;
 
-import cn.bestsort.dubai.cache.MemoryCacheStore;
-import cn.bestsort.dubai.handler.FileStorageHandlers;
-import cn.bestsort.dubai.model.entity.Files;
-import cn.bestsort.dubai.model.enums.StorageType;
-import cn.bestsort.dubai.repository.FilesRepository;
-import cn.bestsort.dubai.service.CloudDiskFileSystemInterface;
+import cn.bestsort.lic.cache.MemoryCacheStore;
+import cn.bestsort.lic.handler.FileStoreHandler;
+import cn.bestsort.lic.model.entity.Files;
+import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.repository.FilesRepository;
+import cn.bestsort.lic.service.CloudDiskFileSystemInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +28,8 @@ public class CloudDiskFileSystemImpl implements CloudDiskFileSystemInterface {
     @Resource
     private MemoryCacheStore cacheStore;
     @Resource
-    private FileStorageHandlers fileHandlers;
-    private StorageType type = StorageType.DEFAULT;
+    private FileStoreHandler fileHandlers;
+    private FileStoreType type = FileStoreType.DEFAULT;
     @Override
     public List<Files> listFiles(String path) {
         return null;
@@ -37,22 +37,22 @@ public class CloudDiskFileSystemImpl implements CloudDiskFileSystemInterface {
 
     @Override
     public String makeDir(String path, String dirname, long userId) {
-        return fileHandlers.getStrategy(type).makeDir(path, dirname, userId);
+        return fileHandlers.fetchFileStore().makeDir(path, dirname, userId);
     }
 
     @Override
     public boolean deleteFile(long fileId, long userId, boolean isDir) {
-        return fileHandlers.getStrategy(type).deleteFile(fileId, userId, isDir);
+        return fileHandlers.fetchFileStore().deleteFile(fileId, userId, isDir);
     }
 
     @Override
     public String copyFileTo(String sourcePath, String targetPath,long fileId, long userId, boolean isMoved) {
-        return fileHandlers.getStrategy(type).copyFileTo(sourcePath, targetPath, fileId, userId, isMoved);
+        return fileHandlers.fetchFileStore().copyFileTo(sourcePath, targetPath, fileId, userId, isMoved);
     }
 
     @Override
     public Files renameFile(String sourceName, String targetName, long userId, long fileId) {
-        Files buffer = fileHandlers.getStrategy(type).renameFile(sourceName,targetName,userId,fileId);
+        Files buffer = fileHandlers.fetchFileStore().renameFile(sourceName,targetName,userId,fileId);
         if (buffer!= null){
             filesRepository.findById(fileId);
             buffer.setName(targetName);

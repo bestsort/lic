@@ -1,4 +1,4 @@
-package cn.bestsort.dubai.factory;
+package cn.bestsort.lic.factory;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;

@@ -16,8 +16,11 @@ spring:
           db-type: mysql
           log-slow-sql: true
           slow-sql-millis: 2000
+  jpa:
+    database: mysql
+    show-sql: false
+    hibernate:
+      ddl-auto: create
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-file-system:
-  storageMethod: local

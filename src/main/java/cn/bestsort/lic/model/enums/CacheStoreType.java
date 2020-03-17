@@ -7,7 +7,7 @@ package cn.bestsort.lic.model.enums;
  * @version 1.0
  * @date 3/13/20 8:04 AM
  */
-public enum  CacheType {
+public enum CacheStoreType {
     /**
      * 使用JVM堆进行缓存
      */

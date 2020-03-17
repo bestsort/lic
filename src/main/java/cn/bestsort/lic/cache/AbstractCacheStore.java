@@ -25,33 +25,13 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K, V> {
 
     @Resource
-    OptionsService optionsService;
-    @Resource
     ApplicationEventPublisher applicationEventPublisher;
-
-    /**
-     * get cache wrapper by key
-     * @param key not null
-     * @return cache wrapper
-     */
-    @NonNull
-    abstract Optional<CacheWrapper<V>> getInternal(@NonNull K key);
     /**
      * Puts the cache wrapper.
-     *
+     * @param value        value must not be null
      * @param key          key must not be null
-     * @param cacheWrapper cache wrapper must not be null
      */
-    abstract void putInternal(@NonNull K key, @NonNull CacheWrapper<V> cacheWrapper);
-
-    /**
-     * Puts the cache wrapper if the key is absent.
-     *
-     * @param key          key must not be null
-     * @param cacheWrapper cache wrapper must not be null
-     * @return true if the key is absent and the value is set, false if the key is present before, or null if any other reason
-     */
-    abstract Boolean putInternalIfAbsent(@NonNull K key, @NonNull CacheWrapper<V> cacheWrapper);
+    abstract void putInternal(@NonNull K key, @NonNull V value);
 
     /**
      * remove all cache to prevent happens OOM on change cache store
@@ -62,65 +42,31 @@ public abstract class AbstractCacheStore<K, V> implements CacheStoreInterface<K,
     @Override
     public Optional<V> get(K key) {
         Assert.notNull(key, "Cache key must not be blank");
-
-        return getInternal(key).map(cacheWrapper -> {
-            // Check expiration
-            if (cacheWrapper.getExpireAt() != null && cacheWrapper.getExpireAt().before(TimeUtil.now())) {
-                // Expired then delete it
-                log.warn("Cache key: [{}] has been expired", key);
-                // Delete the key
-                delete(key);
-
-                // Return null
-                return null;
-            }
-            return cacheWrapper.getData();
-        });
-    }
-
-    @Override
-    public void put(K key, V value, long timeout, TimeUnit timeUnit) {
-        applicationEventPublisher.publishEvent(new CacheEvent(this, key.toString(), value.toString()));
-        putInternal(key, buildCacheWrapper(value, timeout, timeUnit));
-    }
-
-    @Override
-    public Boolean pubIfAbsent(@NotNull K key, @NotNull V value, long timeout, @NotNull TimeUnit timeUnit) {
-        return putInternalIfAbsent(key, buildCacheWrapper(value, timeout, timeUnit));
-    }
-
-    @Override
-    public void put(K key, V value) {
-        put(key, value, 0, null);
+        return getInternal(key);
     }
 
     /**
-     * Builds cache wrapper.
-     *
-     * @param value    cache value must not be null
-     * @param timeout  the key expiry time, if the expiry time is less than 1, the cache won't be expired
-     * @param timeUnit timeout unit must
-     * @return cache wrapper
+     * 尝试在缓存中获取 key 对应的 value
+     * @param key key
+     * @return 缓存中的 value
      */
-    @NonNull
-    private CacheWrapper<V> buildCacheWrapper(@NonNull V value, long timeout, @Nullable TimeUnit timeUnit) {
-        Assert.notNull(value, "Cache value must not be null");
-        Assert.isTrue(timeout >= 0 && timeout < Long.MAX_VALUE,
-                "Cache expiration timeout must be bigger than 0 and less than Long.MAX_VALUE");
+    public abstract Optional<V> getInternal(K key);
 
-        Timestamp now = TimeUtil.now();
-        Timestamp expireAt = null;
-
-        if (timeout > 0 && timeUnit != null) {
-            expireAt = TimeUtil.add(now, timeout, timeUnit);
+    @Override
+    public boolean contain(K key){
+        if (get(key).isPresent()){
+            return true;
         }
-
-        // Build cache wrapper
-        CacheWrapper<V> cacheWrapper = new CacheWrapper<>();
-        cacheWrapper.setCreateAt(now);
-        cacheWrapper.setExpireAt(expireAt);
-        cacheWrapper.setData(value);
-
-        return cacheWrapper;
+        return false;
     }
+    @Override
+    public void put(K key, V value) {
+        Optional<V> oldValue = get(key);
+        if (oldValue.isPresent() && oldValue.get().equals(value)){
+            return;
+        }
+        applicationEventPublisher.publishEvent(new CacheEvent(this, key.toString(), value.toString()));
+        putInternal(key, value);
+    }
+
 }

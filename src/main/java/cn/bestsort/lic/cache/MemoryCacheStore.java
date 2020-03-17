@@ -18,70 +18,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class MemoryCacheStore extends AbstractStringCacheStore {
-
     private static final int CACHE_INIT_SIZE = 32;
-    private static ConcurrentHashMap<String, CacheWrapper<String>> CACHE_CONTAINER;
+    private static ConcurrentHashMap<String, String> CACHE_CONTAINER;
 
     @Override
-    Optional<CacheWrapper<String>> getInternal(String key) {
-        Assert.hasText(key, "key must not be blank");
-        CacheWrapper<String> cacheWrapper = CACHE_CONTAINER.get(key);
-        if (cacheWrapper.getExpireAt().before(TimeUtil.now())){
-            delete(key);
-            return Optional.empty();
-        }
-        return Optional.ofNullable(cacheWrapper);
-    }
-
-    /**
-     *
-     * get cache wrapper by key
-     * @param key           must not be null
-     * @param cacheWrapper  must not be null
-     * @param isPushed      {@code true} the K-V must be pushed to database;{@code false} otherwise;
-     */
-    void putInternal(String key, CacheWrapper<String> cacheWrapper, boolean isPushed){
-        put(key, cacheWrapper, false, isPushed);
-    }
-
-    Boolean putInternalIfAbsent(String key, CacheWrapper<String> cacheWrapper, boolean isPushed){
-        put(key, cacheWrapper, true, isPushed);
-        return true;
-    }
-
-    @Override
-    void putInternal(String key, CacheWrapper<String> cacheWrapper) {
-        put(key, cacheWrapper, false, false);
-    }
-
-    @Override
-    Boolean putInternalIfAbsent(String key, CacheWrapper<String> cacheWrapper) {
-        put(key, cacheWrapper, true, false);
-        return true;
-    }
-
-
-
-    private CacheWrapper<String> put(String key, CacheWrapper<String> cacheWrapper, boolean ifAbsent, boolean isPushed){
-        Assert.hasText(key, "Cache key must not be blank");
-        Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
-        if (CACHE_CONTAINER == null){
-            tryInit();
-        }
-        // Put the cache wrapper
-        CacheWrapper<String> putCacheWrapper = ifAbsent ?
-            CACHE_CONTAINER.putIfAbsent(key, cacheWrapper):
-            CACHE_CONTAINER.put(key, cacheWrapper);
-        if (ifAbsent) {
-            log.debug("Put [{}] cache result: [{}], original cache wrapper: [{}]",
-                key, putCacheWrapper, cacheWrapper);
-        }
-        return putCacheWrapper;
+    void putInternal(String key, String value) {
+        CACHE_CONTAINER.put(key, value);
     }
 
     @Override
     public void clearCache() {
         CACHE_CONTAINER = null;
+    }
+
+    @Override
+    public Optional<String> getInternal(String key) {
+        return Optional.ofNullable(CACHE_CONTAINER.get(key));
     }
 
     @Override
@@ -96,7 +48,8 @@ public class MemoryCacheStore extends AbstractStringCacheStore {
         return CacheStoreType.DEFAULT;
     }
 
-    private void tryInit(){
+    @Override
+    public void tryInit(){
         // double check
         if (CACHE_CONTAINER == null){
             synchronized (this){

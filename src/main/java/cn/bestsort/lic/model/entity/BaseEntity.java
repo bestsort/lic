@@ -1,6 +1,7 @@
 package cn.bestsort.lic.model.entity;
 
 import cn.bestsort.lic.utils.TimeUtil;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

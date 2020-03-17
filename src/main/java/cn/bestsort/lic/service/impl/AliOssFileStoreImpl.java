@@ -2,7 +2,7 @@ package cn.bestsort.lic.service.impl;
 
 import cn.bestsort.lic.model.entity.Files;
 import cn.bestsort.lic.model.enums.FileStoreType;
-import cn.bestsort.lic.service.ActualFileSystemInterface;
+import cn.bestsort.lic.service.FileStoreInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Lazy
 @Slf4j
 @Service
-public class AliOssFileSystemImpl implements ActualFileSystemInterface {
+public class AliOssFileStoreImpl implements FileStoreInterface {
 
     @Override
     public String makeDir(String path, String dirname, long userId) {
@@ -41,7 +41,7 @@ public class AliOssFileSystemImpl implements ActualFileSystemInterface {
     }
 
     @Override
-    public FileStoreType getType() {
+    public FileStoreType getStoreType() {
         return null;
     }
 }

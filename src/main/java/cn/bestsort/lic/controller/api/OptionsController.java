@@ -1,4 +1,4 @@
-package cn.bestsort.lic.controller;
+package cn.bestsort.lic.controller.api;
 
 import cn.bestsort.lic.model.entity.Options;
 import cn.bestsort.lic.service.OptionsService;

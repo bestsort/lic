@@ -14,21 +14,12 @@ import cn.bestsort.lic.utils.TimeUtil;
 public enum LicPropertyFiled implements PropertyEnum {
 
     /**
-     * 是否是第一次使用lic
+     * 缓存维持的时间(单位为S, 默认1天, 过期删除)
      */
-    IS_FIRST_USED(
-        "is_first_used",
-        Boolean.class,
-        Boolean.toString(true)
-    ),
-
-    /**
-     * 第一次使用的时间
-     */
-    BIRTHDAY(
-        "lic_birthday",
-        String.class,
-        TimeUtil.now().toString()
+    CACHE_DURATION(
+        "cache_duration",
+        Integer.class,
+        String.valueOf(60 * 60 * 24)
     ),
 
     /**
@@ -55,7 +46,7 @@ public enum LicPropertyFiled implements PropertyEnum {
 
     LicPropertyFiled(String value, Class<?> type, String defaultValue) {
         if (!PropertyEnum.isSupportedType(type)) {
-            throw new IllegalArgumentException("Unsupported blog property type: " + type);
+            throw new IllegalArgumentException("Unsupported property type: " + type);
         }
         this.defaultValue = defaultValue;
         this.value = value;

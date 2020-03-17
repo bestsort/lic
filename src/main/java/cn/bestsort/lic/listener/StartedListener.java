@@ -49,7 +49,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
                 FileStoreType.class,
                 optionsService.queryValueByKeyOrDefault(
                     LicPropertyFiled.STORAGE_STRATEGY.getValue(),
-                    FileStoreType.DEFAULT
+                    LicPropertyFiled.STORAGE_STRATEGY.defaultValue()
                 )
             )
         );
@@ -58,7 +58,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
          */
         cacheStoreHandler.getCacheStore().put(
             LicPropertyFiled.STORAGE_STRATEGY.getValue(),
-            LicPropertyFiled.STORAGE_STRATEGY.defaultValue()
+            FileStoreHandler.getStrategy()
         );
         log.info("文件系统设置完毕, 将使用 {} 作为文件存储系统", FileStoreHandler.getStrategy());
     }
@@ -67,20 +67,24 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
      * 加载缓存配置, 若无则使用 JVM 堆作为缓存
      */
     private void loadCacheStore(){
-        CacheStoreHandler.setStrategy(
+        cacheStoreHandler.setStrategy(
             CacheStoreType.valueOf(
                 CacheStoreType.class,
                 optionsService.queryValueByKeyOrDefault(
                     LicPropertyFiled.CACHE_STRATEGY.getValue(),
                     LicPropertyFiled.CACHE_STRATEGY.defaultValue()
                 )
-            )
+            ),
+            false
         );
         Assert.notNull(cacheStoreHandler.getCacheStore(), "缓存系统未实现");
+        /**
+         * 将配置写入缓存
+         */
         cacheStoreHandler.getCacheStore().put(
             LicPropertyFiled.CACHE_STRATEGY.getValue(),
-            LicPropertyFiled.CACHE_STRATEGY.defaultValue()
+            cacheStoreHandler.getStrategy()
         );
-        log.info("缓存设置完毕, 将使用 {}  作为缓存", CacheStoreHandler.getStrategy());
+        log.info("缓存设置完毕, 将使用 {}  作为缓存", cacheStoreHandler.getStrategy());
     }
 }

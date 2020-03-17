@@ -4,7 +4,7 @@ import cn.bestsort.lic.exception.ItemExtendException;
 import cn.bestsort.lic.model.entity.Files;
 import cn.bestsort.lic.model.enums.FileStoreType;
 import cn.bestsort.lic.repository.FilesRepository;
-import cn.bestsort.lic.service.ActualFileSystemInterface;
+import cn.bestsort.lic.service.FileStoreInterface;
 import cn.bestsort.lic.utils.FilePathUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @Slf4j
 @Lazy
 @Service("local")
-public class LocalFileSystemImpl implements ActualFileSystemInterface{
+public class LocalFileStoreImpl implements FileStoreInterface {
     @Resource
     private FilesRepository filesRepository;
 
@@ -110,7 +110,7 @@ public class LocalFileSystemImpl implements ActualFileSystemInterface{
     }
 
     @Override
-    public FileStoreType getType() {
+    public FileStoreType getStoreType() {
         return FileStoreType.DEFAULT;
     }
 }

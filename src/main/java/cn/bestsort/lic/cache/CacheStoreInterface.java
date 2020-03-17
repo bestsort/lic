@@ -22,18 +22,15 @@ public interface CacheStoreInterface<K, V> {
     Optional<V> get(@NotNull K key);
 
     /**
+     * 初始化
+     */
+    void tryInit();
+
+    boolean contain(K key);
+    /**
      * remove all cache to prevent happens OOM on change cache store
      */
     void clearCache();
-    /**
-     * put value with timeout
-     * @param key       not null
-     * @param value     not null
-     * @param timeout   A positive number less than Long.MAX_VALUE
-     * @param timeUnit  timeout unit must not be null
-     * @return value
-     */
-    void put(@NotNull K key, @NotNull V value, long timeout,@NotNull TimeUnit timeUnit);
 
     /**
      * put value with default timeout
@@ -42,17 +39,6 @@ public interface CacheStoreInterface<K, V> {
      * @return value
      */
     void put(@NotNull K key,@NotNull V value);
-
-    /**
-     * Puts a cache which will be expired if the key is absent.
-     * @param key       not null
-     * @param value     not null
-     * @param timeout   A positive number less than Long.MAX_VALUE
-     * @param timeUnit  timeout unit must not be null
-     * @return true if the key is absent and the value is set,
-     *         false if the key is present before, or null if any other reason
-     */
-    Boolean pubIfAbsent(@NotNull K key,@NotNull V value, long timeout,@NotNull TimeUnit timeUnit);
 
     /**
      * delete

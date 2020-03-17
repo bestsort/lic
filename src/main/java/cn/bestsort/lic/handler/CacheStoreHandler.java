@@ -25,7 +25,7 @@ public class CacheStoreHandler {
 
     private HashMap<CacheStoreType, CacheStoreInterface> cacheMap = new HashMap<>();
 
-    private static CacheStoreType STRATEGY = CacheStoreType.DEFAULT;
+    private static CacheStoreType STRATEGY = null;
 
     public CacheStoreHandler(ApplicationContext applicationContext){
         addFileHandlers(applicationContext.getBeansOfType(CacheStoreInterface.class).values());
@@ -44,11 +44,20 @@ public class CacheStoreHandler {
         }
     }
 
-    public static void setStrategy(CacheStoreType strategy){
-        Assert.notNull(strategy, "storage must be not null");
-        STRATEGY = strategy;
+    public void setStrategy(CacheStoreType strategy){
+        setStrategy(strategy, strategy != STRATEGY);
     }
-    public static String getStrategy(){
+
+    public void setStrategy(CacheStoreType strategy, boolean isChanged){
+        Assert.notNull(strategy, "storage must be not null");
+        if (isChanged){
+            getCacheStore().clearCache();
+        }
+        STRATEGY = strategy;
+        getCacheStore().tryInit();
+    }
+
+    public String getStrategy(){
         return STRATEGY.toString();
     }
 

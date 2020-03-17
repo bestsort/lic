@@ -1,7 +1,7 @@
 package cn.bestsort.lic.handler;
 
 import cn.bestsort.lic.model.enums.FileStoreType;
-import cn.bestsort.lic.service.ActualFileSystemInterface;
+import cn.bestsort.lic.service.FileStoreInterface;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -21,12 +21,12 @@ import java.util.HashMap;
 @Component
 public class FileStoreHandler {
 
-    private HashMap<FileStoreType, ActualFileSystemInterface> fileHandlers = new HashMap<>();
+    private HashMap<FileStoreType, FileStoreInterface> fileHandlers = new HashMap<>();
     private static FileStoreType STRATEGY = FileStoreType.DEFAULT;
 
 
     public FileStoreHandler(ApplicationContext applicationContext){
-        addFileHandlers(applicationContext.getBeansOfType(ActualFileSystemInterface.class).values());
+        addFileHandlers(applicationContext.getBeansOfType(FileStoreInterface.class).values());
     }
 
 
@@ -34,10 +34,10 @@ public class FileStoreHandler {
      * @param fileHandlers can be null
      */
     @NonNull
-    public void addFileHandlers(@Nullable Collection<ActualFileSystemInterface> fileHandlers){
+    public void addFileHandlers(@Nullable Collection<FileStoreInterface> fileHandlers){
         if (!CollectionUtils.isEmpty(fileHandlers)){
-            for (ActualFileSystemInterface fileHandler : fileHandlers) {
-                this.fileHandlers.put(fileHandler.getType(), fileHandler);
+            for (FileStoreInterface fileHandler : fileHandlers) {
+                this.fileHandlers.put(fileHandler.getStoreType(), fileHandler);
             }
         }
     }
@@ -50,7 +50,7 @@ public class FileStoreHandler {
         STRATEGY = strategy;
     }
 
-    public ActualFileSystemInterface fetchFileStore(){
+    public FileStoreInterface fetchFileStore(){
         return  fileHandlers.getOrDefault(STRATEGY.toString(),fileHandlers.get(FileStoreType.DEFAULT));
     }
 }

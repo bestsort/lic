@@ -19,11 +19,11 @@ import java.util.HashMap;
  */
 
 @Component
-public class FileStorageHandlers {
+public class FileStorageHandler {
 
     private HashMap<StorageType, ActualFileSystemInterface> fileHandlers = new HashMap<>();
-
-    public FileStorageHandlers(ApplicationContext applicationContext){
+    private static StorageType STRATEGY = StorageType.DEFAULT;
+    public FileStorageHandler(ApplicationContext applicationContext){
         addFileHandlers(applicationContext.getBeansOfType(ActualFileSystemInterface.class).values());
     }
 
@@ -40,8 +40,15 @@ public class FileStorageHandlers {
         }
     }
 
-    public ActualFileSystemInterface getStrategy(StorageType type){
-        Assert.notNull(fileHandlers.get(StorageType.DEFAULT),"local file storage not found");
-        return  fileHandlers.getOrDefault(type,fileHandlers.get(StorageType.DEFAULT));
+    public static String getStrategy(){
+        return STRATEGY.toString();
+    }
+    public static void setStrategy(StorageType strategy){
+        Assert.notNull(strategy, "文件系统类型不可为空");
+        STRATEGY = strategy;
+    }
+
+    public ActualFileSystemInterface fetchFileSystem(){
+        return  fileHandlers.getOrDefault(STRATEGY.toString(),fileHandlers.get(StorageType.DEFAULT));
     }
 }

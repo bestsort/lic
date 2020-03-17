@@ -1,7 +1,7 @@
-package cn.bestsort.dubai.handler;
+package cn.bestsort.lic.handler;
 
-import cn.bestsort.dubai.cache.CacheStoreInterface;
-import cn.bestsort.dubai.model.enums.CacheType;
+import cn.bestsort.lic.cache.CacheStoreInterface;
+import cn.bestsort.lic.model.enums.CacheType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
@@ -25,7 +25,7 @@ public class CacheHandler {
 
     private HashMap<CacheType, CacheStoreInterface> cacheMap = new HashMap<>();
 
-    private static final CacheType DEFAULT_STRATEGY = CacheType.DEFAULT;
+    private static CacheType STRATEGY = CacheType.DEFAULT;
 
     public CacheHandler(ApplicationContext applicationContext){
         addFileHandlers(applicationContext.getBeansOfType(CacheStoreInterface.class).values());
@@ -44,8 +44,16 @@ public class CacheHandler {
         }
     }
 
-    public CacheStoreInterface getStrategy(CacheType type){
-        Assert.notNull(cacheMap.get(CacheType.DEFAULT),"local file storage not found");
-        return  cacheMap.getOrDefault(type,cacheMap.get(CacheType.DEFAULT));
+    public static void setStrategy(CacheType strategy){
+        Assert.notNull(strategy, "storage must be not null");
+        STRATEGY = strategy;
+    }
+    public static String getStrategy(){
+        return STRATEGY.toString();
+    }
+
+    public CacheStoreInterface getCacheStore(){
+        Assert.notNull(cacheMap.get(STRATEGY),"cache storage not found");
+        return  cacheMap.get(STRATEGY);
     }
 }

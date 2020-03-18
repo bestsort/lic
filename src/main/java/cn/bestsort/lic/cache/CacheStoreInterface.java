@@ -1,10 +1,10 @@
 package cn.bestsort.lic.cache;
 
+import cn.bestsort.lic.exception.NotFoundException;
 import cn.bestsort.lic.model.enums.CacheStoreType;
+import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * TODO
@@ -19,8 +19,23 @@ public interface CacheStoreInterface<K, V> {
      * @param key not null
      * @return value
      */
-    Optional<V> get(@NotNull K key);
+    V get(@NotNull K key);
 
+    /**
+     * 根据key查找, 结果为 null 时抛出异常
+     * @param key  key
+     * @return     value
+     * @throws     NotFoundException throws when item is null
+     */
+    V getWithNonNull(@NonNull K key);
+
+    /**
+     * 根据 key 获取 value, 若 value 不存在则返回 defaultValue
+     * @param key               key
+     * @param defaultValue      默认值
+     * @return                  v
+     */
+    V get(@NotNull K key, V defaultValue);
     /**
      * 初始化
      */

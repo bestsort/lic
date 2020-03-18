@@ -13,8 +13,9 @@ public class LicConst {
     /**
      * User home directory.
      */
-    public static final String USER_HOME = System.getProperties().getProperty("user.home");
+    public static final String USER_HOME = System.getProperty("user.home");
 
+    public static final String USER_NOW_DIR = System.getProperty("user.dir");
     /**
      * Version constant. (Available in production environment)
      */

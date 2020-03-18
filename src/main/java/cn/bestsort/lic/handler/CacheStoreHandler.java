@@ -51,17 +51,17 @@ public class CacheStoreHandler {
     public void setStrategy(CacheStoreType strategy, boolean isChanged){
         Assert.notNull(strategy, "storage must be not null");
         if (isChanged){
-            getCacheStore().clearCache();
+            fetchCacheStore().clearCache();
         }
         STRATEGY = strategy;
-        getCacheStore().tryInit();
+        fetchCacheStore().tryInit();
     }
 
     public String getStrategy(){
         return STRATEGY.toString();
     }
 
-    public CacheStoreInterface getCacheStore(){
+    public CacheStoreInterface fetchCacheStore(){
         Assert.notNull(cacheMap.get(STRATEGY),"cache storage not found");
         return  cacheMap.get(STRATEGY);
     }

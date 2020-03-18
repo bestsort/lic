@@ -1,8 +1,10 @@
-/*
-package cn.bestsort.cloud_disk.interceptor;
+package cn.bestsort.lic.interceptor;
 
-import cn.bestsort.cloud_disk.model.entity.User;
-import cn.bestsort.cloud_disk.utils.IpUtil;
+import cn.bestsort.lic.handler.CacheStoreHandler;
+import cn.bestsort.lic.model.entity.User;
+import cn.bestsort.lic.model.enums.propertys.PrimaryProperty;
+import cn.bestsort.lic.utils.IpUtil;
+import cn.bestsort.lic.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,49 +15,43 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-*/
 /**
  * TODO
  *
  * @author bestsort
  * @version 1.0
  * @date 3/12/20 9:32 AM
- *//*
+ */
 
 
 @Slf4j
 @Component
-public class SessionInterceptor implements HandlerInterceptor {
+public class LogInInterceptor implements HandlerInterceptor {
     @Resource
-    private UserService userService;
+    private CacheStoreHandler cacheStoreHandler;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        Boolean isLogin = (Boolean) request.getSession().getAttribute("isLogin");
+        if (isLogin == null || !isLogin) {
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length != 0) {
                 for (Cookie cookie : cookies) {
-                    if ("token".equals(cookie.getName())) {
+                    if ("code".equals(cookie.getName())) {
+                        String account = (String) request.getSession().getAttribute(PrimaryProperty.USER_ACCOUNT.getValue());
+                        String password = (String) request.getSession().getAttribute(PrimaryProperty.USER_PASSWORD.getValue());
                         String token = cookie.getValue();
-                        //user = userService.getByToken(token);
-                        if (user != null) {
+                        if (token.equals(UserUtil.isUserOwn(account, password, cacheStoreHandler))) {
                             //写入Session便于持久化登录
-                            request.getSession().setAttribute("user", user);
+                            request.getSession().setAttribute("isLogin", true);
                         }
                         break;
                     }
                 }
             }
         }
-        log.info("\naccount:{} \nname: {} \nlogin from: {} \nhas been view :{} \nby: {}  \nReferer from {}",
-                user==null?"Customer":user.getAccount(),
-                user==null?"Customer":user.getName(), IpUtil.getIpAddr(request),
-                request.getRequestURI()+(request.getQueryString()==null?"":("?"+request.getQueryString())),
-                request.getHeader("User-Agent"),
-                request.getHeader("Referer"));
         return true;
     }
 
@@ -65,4 +61,4 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) { }
 }
-*/
+

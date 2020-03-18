@@ -1,6 +1,7 @@
 package cn.bestsort.lic.model.entity;
 
 import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.model.enums.UnitEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,9 +33,9 @@ public class Files extends BaseEntity {
      */
     private boolean isDir;
     /**
-     * 文件url访问父路径（只记录一级）
+     * 文件url访问父文件夹（只记录一级）
      */
-    private String parentPath;
+    private Long parentId;
     /**
      * 文件在磁盘中的真实路径
      */
@@ -46,7 +47,7 @@ public class Files extends BaseEntity {
     /**
      * 计量单位
      */
-    private int unit;
+    private UnitEnum unit;
     /**
      * md5校验和
      */

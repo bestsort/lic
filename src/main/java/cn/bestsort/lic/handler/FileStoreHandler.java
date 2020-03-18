@@ -3,14 +3,17 @@ package cn.bestsort.lic.handler;
 import cn.bestsort.lic.model.enums.FileStoreType;
 import cn.bestsort.lic.service.FileStoreInterface;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author bestsort
@@ -20,8 +23,7 @@ import java.util.HashMap;
 
 @Component
 public class FileStoreHandler {
-
-    private HashMap<FileStoreType, FileStoreInterface> fileHandlers = new HashMap<>();
+    private ConcurrentHashMap<FileStoreType, FileStoreInterface> fileHandlers = new ConcurrentHashMap<>();
     private static FileStoreType STRATEGY = FileStoreType.DEFAULT;
 
 

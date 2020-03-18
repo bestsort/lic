@@ -1,17 +1,17 @@
-package cn.bestsort.lic.service.impl;
+package cn.bestsort.lic.service.impl.file;
 
-import cn.bestsort.lic.exception.ItemExtendException;
 import cn.bestsort.lic.model.entity.Files;
 import cn.bestsort.lic.model.enums.FileStoreType;
-import cn.bestsort.lic.repository.FilesRepository;
+import cn.bestsort.lic.model.enums.propertys.FilePropertyEnum;
+import cn.bestsort.lic.model.enums.propertys.LocalFileProperties;
 import cn.bestsort.lic.service.FileStoreInterface;
-import cn.bestsort.lic.utils.FilePathUtil;
+import cn.bestsort.lic.utils.ConvertUtil;
+import cn.bestsort.lic.utils.FileUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,15 +27,11 @@ import java.util.Optional;
  */
 
 @Slf4j
-@Lazy
-@Service("local")
-public class LocalFileStoreImpl implements FileStoreInterface {
-    @Resource
-    private FilesRepository filesRepository;
-
+@Component("local")
+public class LocalFileStoreImpl extends AbstractFileStore implements FileStoreInterface {
     @Override
     public String makeDir(String path, String dirName, long userId) {
-        File dir = new File(FilePathUtil.unionPath(FilePathUtil.getAbsolutePath(path),dirName));
+        File dir = new File(FileUtil.unionPath(FileUtil.getAbsolutePath(path),dirName));
         if(dir.mkdirs()){
             return path + dirName;
         };
@@ -58,8 +54,8 @@ public class LocalFileStoreImpl implements FileStoreInterface {
         try {
             Files fileInfo = filesRepository.findById(fileId).get();
 
-            File sourcesFile = new File(FilePathUtil.unionAbsolutePath(fileInfo.getRealPath(),fileInfo.getName()));
-            File targetFile = new File(FilePathUtil.unionAbsolutePath(targetPath, fileInfo.getName()));
+            File sourcesFile = new File(FileUtil.unionAbsolutePath(fileInfo.getRealPath(),fileInfo.getName()));
+            File targetFile = new File(FileUtil.unionAbsolutePath(targetPath, fileInfo.getName()));
 
             FileChannel source = new FileInputStream(sourcesFile).getChannel();
             FileChannel target = new FileOutputStream(targetFile).getChannel();
@@ -80,37 +76,33 @@ public class LocalFileStoreImpl implements FileStoreInterface {
     }
 
     @Override
-    public Files renameFile(String sourceName, String targetName, long userId, long fileId) {
-        log.info("用户(id:{}) 正尝试将文件(id:{}) [{}] 重命名为 [{}]",userId,fileId, sourceName, targetName);
-        if (sourceName.equals(targetName)){
-            return null;
-        }
-        Files fileInfo = filesRepository.findById(fileId).get();
-        if (fileInfo == null){
-            throw new NullPointerException("未查询到此文件信息, 请检查或刷新后重试");
-        }
-        if (!fileInfo.getName().equals(sourceName)){
-            throw new IllegalArgumentException("请检查选中的文件, 或刷新后重试");
-        }
+    public Files rename(Files fileInfo, String target){
+        fileInfo.setName(target);
+        filesRepository.saveAndFlush(fileInfo);
+        return fileInfo;
+    }
 
-        String path = FilePathUtil.tryAddPathEndCharset(fileInfo.getRealPath());
-        File source = new File(path + fileInfo.getName());
-        File target = new File(path + targetName);
-        if (target.exists()){
-            throw new ItemExtendException("该文件名已经存在");
-        }
+    @Override
+    Files upload(MultipartFile file, Long targetDirId) {
 
-        //TODO 事务控制
-        if (source.renameTo(target)){
-            fileInfo.setName(targetName);
-            filesRepository.saveAndFlush(fileInfo);
-            log.info("位于[{}]的文件 [{}] 被成功重命名, 新文件名为:[{}]", path, sourceName, targetName);
-        }
+        Files fileInfo = ConvertUtil.multipartFile2Files(
+            file,
+            this,
+            targetDirId == 0 ?
+                null :
+                filesRepository.findById(targetDirId).orElse(null)
+        );
+        filesRepository.save(fileInfo);
         return fileInfo;
     }
 
     @Override
     public FileStoreType getStoreType() {
         return FileStoreType.DEFAULT;
+    }
+
+    @Override
+    public Class<? extends FilePropertyEnum> getType() {
+        return LocalFileProperties.class;
     }
 }

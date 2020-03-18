@@ -2,6 +2,7 @@ package cn.bestsort.lic.cache;
 
 import cn.bestsort.lic.model.enums.CacheStoreType;
 import cn.bestsort.lic.utils.TimeUtil;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -24,6 +25,7 @@ public class MemoryCacheStore extends AbstractStringCacheStore {
     @Override
     void putInternal(String key, String value) {
         CACHE_CONTAINER.put(key, value);
+        log.debug("缓存内配置已刷新   [{}] <---> [{}]", key, value);
     }
 
     @Override
@@ -37,8 +39,7 @@ public class MemoryCacheStore extends AbstractStringCacheStore {
     }
 
     @Override
-    public void delete(@NotNull String key) {
-        Assert.hasText(key, "Cache key must not be blank");
+    public void deleteInternal(@NonNull String key){
         CACHE_CONTAINER.remove(key);
         log.debug("Removed key: [{}]", key);
     }

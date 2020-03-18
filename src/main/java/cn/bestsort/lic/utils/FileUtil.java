@@ -1,5 +1,7 @@
 package cn.bestsort.lic.utils;
 
+import cn.bestsort.lic.model.enums.UnitEnum;
+
 import static cn.bestsort.lic.model.support.LicConst.FILE_SEPARATOR;
 import static cn.bestsort.lic.model.support.LicConst.USER_HOME;
 
@@ -10,11 +12,20 @@ import static cn.bestsort.lic.model.support.LicConst.USER_HOME;
  * @date 2/29/20 8:38 PM
  */
 
-public class FilePathUtil {
+public class FileUtil {
 
     private static String DATA_DIR = FILE_SEPARATOR+"data";
 
     private static String ROOT_PATH = USER_HOME + DATA_DIR;
+
+    public static float convertSize(float size, UnitEnum unit){
+        switch (unit){
+            case KB: size /= 1000;
+            case MB: size /= 1000;
+            case GB: size /= 1000;
+        }
+        return size;
+    }
 
     public static String tryAddStartAndEndCharset(String filePath){
         return tryAddPathEndCharset(tryAddPathStartCharset(filePath));
@@ -72,5 +83,5 @@ public class FilePathUtil {
         return filePath;
     }
 
-    private FilePathUtil(){}
+    private FileUtil(){}
 }

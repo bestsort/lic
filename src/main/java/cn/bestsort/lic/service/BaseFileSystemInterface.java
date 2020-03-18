@@ -1,6 +1,8 @@
 package cn.bestsort.lic.service;
 
 import cn.bestsort.lic.model.entity.Files;
+import org.springframework.lang.NonNull;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 默认文件操作
@@ -49,4 +51,12 @@ public interface BaseFileSystemInterface {
      * @return 重命名结果
      */
     Files renameFile(String sourceName, String targetName, long userId, long fileId);
+
+    /**
+     * 文件上传
+     * @param file          需要上传的文件
+     * @param targetDirId   上传目录的id
+     * @return              上传后的文件信息
+     */
+    Files uploadFile(@NonNull MultipartFile file, @NonNull Long targetDirId);
 }

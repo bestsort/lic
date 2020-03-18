@@ -14,6 +14,14 @@ import cn.bestsort.lic.utils.TimeUtil;
 public enum LicPropertyFiled implements PropertyEnum {
 
     /**
+     * 默认数据文件夹
+     */
+    DATA_DIR(
+        "data_dir",
+        String.class,
+        "/data"
+    ),
+    /**
      * 缓存维持的时间(单位为S, 默认1天, 过期删除)
      */
     CACHE_DURATION(

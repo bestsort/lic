@@ -56,7 +56,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         /**
          * 将配置写入缓存
          */
-        cacheStoreHandler.getCacheStore().put(
+        cacheStoreHandler.fetchCacheStore().put(
             LicPropertyFiled.STORAGE_STRATEGY.getValue(),
             FileStoreHandler.getStrategy()
         );
@@ -77,11 +77,11 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
             ),
             false
         );
-        Assert.notNull(cacheStoreHandler.getCacheStore(), "缓存系统未实现");
+        Assert.notNull(cacheStoreHandler.fetchCacheStore(), "缓存系统未实现");
         /**
          * 将配置写入缓存
          */
-        cacheStoreHandler.getCacheStore().put(
+        cacheStoreHandler.fetchCacheStore().put(
             LicPropertyFiled.CACHE_STRATEGY.getValue(),
             cacheStoreHandler.getStrategy()
         );

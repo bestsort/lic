@@ -1,11 +1,14 @@
-package cn.bestsort.lic.service.impl;
+package cn.bestsort.lic.service.impl.file;
 
 import cn.bestsort.lic.model.entity.Files;
 import cn.bestsort.lic.model.enums.FileStoreType;
+import cn.bestsort.lic.model.enums.propertys.AliOssProperties;
+import cn.bestsort.lic.model.enums.propertys.FilePropertyEnum;
 import cn.bestsort.lic.service.FileStoreInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * TODO
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Lazy
 @Slf4j
 @Service
-public class AliOssFileStoreImpl implements FileStoreInterface {
+public class AliOssFileStoreImpl extends AbstractFileStore implements FileStoreInterface {
 
     @Override
     public String makeDir(String path, String dirname, long userId) {
@@ -41,7 +44,33 @@ public class AliOssFileStoreImpl implements FileStoreInterface {
     }
 
     @Override
-    public FileStoreType getStoreType() {
+    public Files uploadFile(MultipartFile file, Long targetDirId) {
         return null;
+    }
+
+    @Override
+    Files upload(MultipartFile file, Long targetDirId) {
+        return null;
+    }
+
+
+    @Override
+    public FileStoreType getStoreType() {
+        return FileStoreType.ALI_OSS;
+    }
+
+    @Override
+    public String getRealPath(String parentDir, String fileName) {
+        return null;
+    }
+
+    @Override
+    Files rename(Files fileInfo, String target) {
+        return null;
+    }
+
+    @Override
+    public Class<? extends FilePropertyEnum> getType() {
+        return AliOssProperties.class;
     }
 }

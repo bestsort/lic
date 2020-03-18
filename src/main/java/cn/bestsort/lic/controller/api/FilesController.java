@@ -1,12 +1,15 @@
 package cn.bestsort.lic.controller.api;
 
+import cn.bestsort.lic.model.dto.FileDto;
 import cn.bestsort.lic.model.entity.Files;
 import cn.bestsort.lic.service.CloudDiskFileSystemInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 
 /**
  * (Files)表控制层
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * @since 2020-02-29 15:41:23
  */
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api/file")
 public class FilesController {
 
     @Autowired
@@ -47,7 +50,6 @@ public class FilesController {
                               String target,
                               long fileId){
         long userId = 1;
-        //long userId = (long) session.getAttribute("userId");
         return fileInterface.renameFile(source, target, userId, fileId).getName().equals(target);
     }
 
@@ -59,8 +61,9 @@ public class FilesController {
 
 
     @PutMapping
-    public boolean uploadFile(){
-        return false;
+    public Files uploadFile(@RequestPart MultipartFile file,
+                              @RequestParam(defaultValue = "0") Long dirId){
+        return fileInterface.uploadFile(file, dirId);
     }
 
     @DeleteMapping

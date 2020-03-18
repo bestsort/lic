@@ -11,12 +11,13 @@ import java.util.Map;
 public interface OptionsService  {
 
     /**
-     * 通过 key 查询单条数据
+     * 通过 key 查询单条数据(优先查询缓存)
      *
      * @param key 键
      * @return    实例对象
      */
     String queryValueByKey(String key);
+
 
     /**
      * 通过 key 查询 value, 若未找到则返回 defaultOptionValue

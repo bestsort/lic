@@ -8,7 +8,7 @@ package cn.bestsort.lic.model.enums.propertys;
  * @date 2020/3/16 下午2:24
  */
 
-public enum AliOssProperties implements PropertyEnum {
+public enum AliOssProperties implements FilePropertyEnum, PropertyEnum {
 
     /**
      * Aliyun oss domain protocol
@@ -84,6 +84,11 @@ public enum AliOssProperties implements PropertyEnum {
     @Override
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String getDataDir(boolean isDefault) {
+        return null;
     }
 }
 

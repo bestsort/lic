@@ -1,6 +1,6 @@
 package cn.bestsort.lic.service.impl;
 
-import cn.bestsort.lic.cache.MemoryCacheStore;
+import cn.bestsort.lic.handler.CacheStoreHandler;
 import cn.bestsort.lic.model.entity.Options;
 import cn.bestsort.lic.model.enums.propertys.PropertyEnum;
 import cn.bestsort.lic.repository.OptionsRepository;
@@ -8,10 +8,10 @@ import cn.bestsort.lic.service.OptionsService;
 import cn.bestsort.lic.service.base.AbstractBaseServiceImpl;
 import cn.bestsort.lic.utils.EnumUtil;
 import cn.bestsort.lic.utils.ServiceUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
@@ -24,12 +24,12 @@ import java.util.*;
  * @author bestsort
  * @since 2020-03-12 09:33:33
  */
+@Slf4j
 @Service
 public class OptionsServiceImplImpl extends AbstractBaseServiceImpl<Options, Long> implements OptionsService {
 
     private final OptionsRepository optionsRepository;
     private final ApplicationContext applicationContext;
-    private final MemoryCacheStore memoryCacheStore;
     private final Map<String, PropertyEnum> propertiesEnumMap;
     private final  ApplicationEventPublisher eventPublisher;
     private final  Validator validator;
@@ -78,7 +78,8 @@ public class OptionsServiceImplImpl extends AbstractBaseServiceImpl<Options, Lon
 
     @Override
     public String queryValueByKey(String key) {
-        return null;
+        Options options = optionsRepository.findByOptionKey(key);
+        return options == null ? null : options.getOptionValue();
     }
 
     @Override
@@ -96,6 +97,7 @@ public class OptionsServiceImplImpl extends AbstractBaseServiceImpl<Options, Lon
         options.setOptionValue(optionValue);
         options.setOptionKey(optionKey);
         optionsRepository.save(options);
+        log.debug("数据库内配置已刷新 [{}] <---> [{}]", optionKey, optionValue);
     }
 
     @Override
@@ -110,13 +112,12 @@ public class OptionsServiceImplImpl extends AbstractBaseServiceImpl<Options, Lon
 
     public OptionsServiceImplImpl(OptionsRepository optionsRepository,
                                   ApplicationContext applicationContext,
-                                  MemoryCacheStore memoryCacheStore,
+                                  CacheStoreHandler cacheStoreHandler,
                                   ApplicationEventPublisher eventPublisher,
                                   Validator validator){
         super(optionsRepository);
         this.applicationContext = applicationContext;
         this.optionsRepository = optionsRepository;
-        this.memoryCacheStore = memoryCacheStore;
         this.eventPublisher = eventPublisher;
         this.validator = validator;
 

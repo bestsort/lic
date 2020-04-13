@@ -52,6 +52,9 @@ public class FileStoreHandler {
         STRATEGY = strategy;
     }
 
+    public FileStoreInterface fetchFileStore(FileStoreType type){
+        return fileHandlers.get(type.toString());
+    }
     public FileStoreInterface fetchFileStore(){
         return  fileHandlers.getOrDefault(STRATEGY.toString(),fileHandlers.get(FileStoreType.DEFAULT));
     }

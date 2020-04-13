@@ -23,8 +23,8 @@ public class ConvertUtil {
 
         result.setRealPath(
             parent == null ?
-            fileStore.getRealPath(source.getName()):
-            fileStore.getRealPath(parent.getRealPath(), source.getName())
+            fileStore.getRealPath(source.getOriginalFilename()):
+            fileStore.getRealPath(parent.getRealPath(), source.getOriginalFilename())
         );
 
         result.setUnit(UnitEnum.BYTE);

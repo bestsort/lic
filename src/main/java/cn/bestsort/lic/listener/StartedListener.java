@@ -5,6 +5,7 @@ import cn.bestsort.lic.handler.FileStoreHandler;
 import cn.bestsort.lic.model.enums.CacheStoreType;
 import cn.bestsort.lic.model.enums.FileStoreType;
 import cn.bestsort.lic.model.enums.propertys.LicPropertyFiled;
+import cn.bestsort.lic.model.support.LicConst;
 import cn.bestsort.lic.service.OptionsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ansi.AnsiColor;
@@ -37,7 +38,9 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     public void onApplicationEvent(ApplicationStartedEvent event) {
         loadCacheStore();
         loadFileStore();
-        log.info(AnsiOutput.toString(AnsiColor.BLUE, "启动成功, 点击链接打开主页"));
+        log.info("Lic [V{}] 启动成功, 点击链接打开主页{}",
+            LicConst.VERSION,
+            AnsiOutput.toString(AnsiColor.BLUE, " http://localhost:8080"));
     }
 
     /**

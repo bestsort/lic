@@ -19,7 +19,7 @@ public class LicConst {
     /**
      * Version constant. (Available in production environment)
      */
-    public static final String VERSION;
+    public static final String VERSION = "1.0.0";
 
     /**
      * Path separator.
@@ -27,8 +27,4 @@ public class LicConst {
     public static final String FILE_SEPARATOR = File.separator;
 
 
-    static {
-        // Set version
-        VERSION = LicConst.class.getPackage().getImplementationVersion();
-    }
 }

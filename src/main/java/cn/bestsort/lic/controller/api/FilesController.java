@@ -21,9 +21,6 @@ import java.io.*;
 @RestController
 @RequestMapping("/api/file")
 public class FilesController {
-
-    @Autowired
-    private HttpSession session;
     /**
      * 服务对象
      */
@@ -35,8 +32,8 @@ public class FilesController {
      * @param fileId 主键
      * @return 单条数据
      */
-    @GetMapping
-    public boolean get(Long fileId,
+    @GetMapping("/{fileId}")
+    public boolean get(@PathVariable Long fileId,
                        HttpServletResponse response) {
         try {
             response.setContentType("application/force-download");
@@ -67,9 +64,9 @@ public class FilesController {
         return true;
     }
 
-    @PostMapping("/copy")
-    public String copyFileTo(@RequestParam long sourceFileDirId,
-                             @RequestParam long fileId,
+    @PostMapping("/copy/{fileId}")
+    public String copyFileTo(@PathVariable long fileId,
+                             @RequestParam long sourceFileDirId,
                              @RequestParam(defaultValue = "false") boolean isMove,
                              @RequestParam(defaultValue = "true") boolean actual){
         return fileInterface.copyFileTo(sourceFileDirId, fileId, isMove,actual);

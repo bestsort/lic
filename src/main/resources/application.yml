@@ -4,9 +4,9 @@ spring:
   ######################################################################
 
   datasource:
-    url: '@jdbc.url@'
-    username: '@jdbc.user@'
-    password: '@jdbc.passwd@'
+    url:
+    username:
+    password:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:

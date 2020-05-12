@@ -61,3 +61,4 @@ Temporary Items
 hs_err_pid*
 target/
 /LOG_PATH_IS_UNDEFINED/
+/config/

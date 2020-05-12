@@ -6,12 +6,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <jdbc.url>jdbc:mysql://127.0.0.1:3306/bbs_lite?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8</jdbc.url>
-        <jdbc.user>bestsort</jdbc.user>
-        <jdbc.passwd>ce8YChPDJ5GRFOUE</jdbc.passwd>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <groupId>cn.bestsort</groupId>
@@ -21,7 +18,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.7.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -120,24 +117,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>6.0.1</version>
-                <configuration>
-                    <url>${jdbc.url}</url>
-                    <user>${jdbc.user}</user>
-                    <password>${jdbc.passwd}</password>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.17</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <!--热部署配置-->
